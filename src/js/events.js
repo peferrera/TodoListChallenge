@@ -14,6 +14,7 @@ export function registerEventHandlers() {
         const todoInput = document.getElementById('todoInput');
         todos.dispatch(addTodo(todoInput.value));
         event.stopPropagation();
+        document.getElementById("todoInput").focus();
 
     });
 
@@ -22,6 +23,7 @@ export function registerEventHandlers() {
             const todoInput = document.getElementById('todoInput');
             todos.dispatch(addTodo(todoInput.value));
             event.stopPropagation();
+            document.getElementById("todoInput").focus();
 
         }
     });

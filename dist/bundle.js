@@ -10359,7 +10359,7 @@
 	}
 
 	function renderInput() {
-	    return '<div class="todo__input"><input type="text" id="todoInput"><button id="addTodo">Add</button></div>';
+	    return '<div class="todo__input"><input type="text" id="todoInput" required><button id="addTodo">Add</button></div>';
 	}
 
 	function renderTodos(todoItems) {
@@ -10414,6 +10414,7 @@
 	        var todoInput = document.getElementById('todoInput');
 	        _state.todos.dispatch((0, _actions.addTodo)(todoInput.value));
 	        event.stopPropagation();
+	        document.getElementById("todoInput").focus();
 	    });
 
 	    (0, _events.listen)('keyup', '#todoInput', function (event) {
@@ -10421,6 +10422,7 @@
 	            var todoInput = document.getElementById('todoInput');
 	            _state.todos.dispatch((0, _actions.addTodo)(todoInput.value));
 	            event.stopPropagation();
+	            document.getElementById("todoInput").focus();
 	        }
 	    });
 
