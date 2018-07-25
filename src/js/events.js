@@ -1,12 +1,29 @@
-import {todos} from './state';
-import {listen} from './lib/events';
-import {addTodo, toggleTodoState} from './actions';
+import {
+    todos
+} from './state';
+import {
+    listen
+} from './lib/events';
+import {
+    addTodo,
+    toggleTodoState
+} from './actions';
 
 export function registerEventHandlers() {
     listen('click', '#addTodo', event => {
         const todoInput = document.getElementById('todoInput');
         todos.dispatch(addTodo(todoInput.value));
         event.stopPropagation();
+
+    });
+
+    listen('keyup', '#todoInput', event => {
+        if (event.key === 'Enter') {
+            const todoInput = document.getElementById('todoInput');
+            todos.dispatch(addTodo(todoInput.value));
+            event.stopPropagation();
+
+        }
     });
 
     listen('click', '.js_toggle_todo', event => {
