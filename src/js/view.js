@@ -1,4 +1,6 @@
-import {isEnabled} from './lib/feature';
+import {
+    isEnabled
+} from './lib/feature';
 
 export function render(el, state) {
     const todoItems = state.todos.map(renderTodoItem).join('');
@@ -9,7 +11,7 @@ export function render(el, state) {
 }
 
 function renderApp(input, todoList) {
-    if(isEnabled('renderBottom')) {
+    if (isEnabled('renderBottom')) {
         return renderAddTodoAtBottom(input, todoList);
     } else {
         return renderAddTodoAtTop(input, todoList);
