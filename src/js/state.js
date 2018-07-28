@@ -44,5 +44,22 @@ function todoChangeHandler(state, change) {
             break;
     }
 }
+const visibilityFilter = (
+    state= 'SHOW_ALL',
+    action
+) => {
+    switch (action.type) {
+        case 'SET_VISIBILITY_FILTER':
+            returnaction.filter;
+        default:
+        return state;
+            
+            break;
+    
+        default:
+            break;
+    }
+}
+
 
 export const todos = createStore(todoChangeHandler, initialState);
