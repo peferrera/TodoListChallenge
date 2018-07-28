@@ -1,13 +1,6 @@
-import {
-    todos
-} from './state';
-import {
-    listen
-} from './lib/events';
-import {
-    addTodo,
-    toggleTodoState
-} from './actions';
+import  todos  from './store/index';
+import { listen } from './lib/events';
+import { addTodo, toggleTodoState } from './actions/actions';
 
 export function registerEventHandlers() {
     listen('click', '#addTodo', event => {
