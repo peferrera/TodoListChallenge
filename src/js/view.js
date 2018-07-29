@@ -2,20 +2,54 @@ import {
     isEnabled
 } from './lib/feature';
 
+const getTodosFiltrando = (state) => {
+    if (state.visibility == "done"){
+        return state.todos.filter(todo => todo.done);
+    } else if (state.visibility == "open") {
+        return state.todos.filter(todo => !todo.done);
+    }else {
+        return state.todos;
+    }
+
+} 
+
 export function render(el, state) {
-    const todoItems = state.todos.map(renderTodoItem).join('');
+    const todoItems = getTodosFiltrando(state).map(renderTodoItem).join('');
     el.innerHTML = renderApp(
         renderInput(),
-        renderTodos(todoItems)
+        renderTodos(todoItems),
+        renderFilters(state.visibility)
     );
 }
 
-function renderApp(input, todoList) {
+function renderApp(input, todoList, filters) {
+    var appReturn = "";
+
     if (isEnabled('renderBottom')) {
-        return renderAddTodoAtBottom(input, todoList);
+        appReturn = renderAddTodoAtBottom(input, todoList);
     } else {
-        return renderAddTodoAtTop(input, todoList);
+        appReturn = renderAddTodoAtTop(input, todoList);
     }
+
+    if (isEnabled('filter')) {
+        appReturn += filters;
+    }
+    return appReturn;
+}
+
+function renderFilters(visibility) {
+    const filterAll = `<input type="radio" id="show_all" name="filter" ${visibility == "all" ? "checked" : ""}> 
+    <label for="show_all"> All </label>`;
+    const filterOpen = `<input type="radio" id="show_open" name="filter" ${visibility == "open" ? "checked" : ""}> 
+    <label for="show_open"> Open </label>`;
+    const filterDone = `<input type="radio" id="show_done" name="filter" ${visibility == "done" ? "checked" : ""}>
+    <label for="show_done"> Done </label>`;
+
+    return `<div>
+        ${filterAll}
+        ${filterOpen}
+        ${filterDone}
+    </div>`;
 }
 
 function renderAddTodoAtTop(input, todoList) {
