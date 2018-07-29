@@ -34,6 +34,10 @@ function renderApp(input, todoList, filters) {
     if (isEnabled('filter')) {
         appReturn += filters;
     }
+    
+    if (isEnabled('filter') && isEnabled('renderBottom') && isEnabled('filterTop')) {
+        appReturn = filters + renderAddTodoAtBottom(input, todoList);
+    }
     return appReturn;
 }
 

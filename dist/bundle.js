@@ -11403,6 +11403,10 @@
 	    if ((0, _feature.isEnabled)('filter')) {
 	        appReturn += filters;
 	    }
+
+	    if ((0, _feature.isEnabled)('filter') && (0, _feature.isEnabled)('renderBottom') && (0, _feature.isEnabled)('filterTop')) {
+	        appReturn = filters + renderAddTodoAtBottom(input, todoList);
+	    }
 	    return appReturn;
 	}
 
