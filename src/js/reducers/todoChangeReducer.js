@@ -1,5 +1,4 @@
-const initialState = {
-    todos: [
+const initialState = [
         {
             id: 0,
             text: 'Take a look at the application',
@@ -20,29 +19,22 @@ const initialState = {
             text: 'Filter todos by text',
             done: false
         }
-    ]
-}
+    ];
 
 const todoChangeReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_TODO':
-            return {
-                ...state,
-                todos: [...state.todos, 
+            return  [...state, 
                     {
-                        id: state.todos.length,
+                        id: state.length,
                         text: action.text,
                         done: false
                     }
-                ]
-            };
+                ];
         case 'TODO_TOGGLE_DONE':
-            const newState = {
-                    ...state, 
-                    todos: [...state.todos]
-                };
+            const newState =[...state];
 
-            for (let todo of newState.todos) {
+            for (let todo of newState) {
                 if (todo.id === action.id) {
                     todo.done = !todo.done;
                     return newState;

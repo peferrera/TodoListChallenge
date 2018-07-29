@@ -8911,9 +8911,9 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _view = __webpack_require__(407);
+	var _view = __webpack_require__(401);
 
-	var _events = __webpack_require__(409);
+	var _events = __webpack_require__(403);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9289,11 +9289,18 @@
 
 	var _todoChangeReducer2 = _interopRequireDefault(_todoChangeReducer);
 
+	var _visibilityReducer = __webpack_require__(400);
+
+	var _visibilityReducer2 = _interopRequireDefault(_visibilityReducer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Store = (0, _redux.createStore)(_todoChangeReducer2.default);
-
-		exports.default = Store;
+	var Store = (0, _redux.createStore)((0, _redux.combineReducers)({
+	    todos: _todoChangeReducer2.default,
+	    visibility: _visibilityReducer2.default
+	}));
+	console.log(Store.getState());
+	exports.default = Store;
 
 /***/ }),
 /* 333 */
@@ -10188,31 +10195,25 @@
 
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-	var _extends2 = __webpack_require__(400);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var initialState = {
-	    todos: [{
-	        id: 0,
-	        text: 'Take a look at the application',
-	        done: true
-	    }, {
-	        id: 1,
-	        text: 'Add ability to filter todos',
-	        done: false
-	    }, {
-	        id: 2,
-	        text: 'Filter todos by status',
-	        done: false
-	    }, {
-	        id: 3,
-	        text: 'Filter todos by text',
-	        done: false
-	    }]
-	};
+	var initialState = [{
+	    id: 0,
+	    text: 'Take a look at the application',
+	    done: true
+	}, {
+	    id: 1,
+	    text: 'Add ability to filter todos',
+	    done: false
+	}, {
+	    id: 2,
+	    text: 'Filter todos by status',
+	    done: false
+	}, {
+	    id: 3,
+	    text: 'Filter todos by text',
+	    done: false
+	}];
 
 	var todoChangeReducer = function todoChangeReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -10220,24 +10221,20 @@
 
 	    switch (action.type) {
 	        case 'ADD_TODO':
-	            return (0, _extends3.default)({}, state, {
-	                todos: [].concat((0, _toConsumableArray3.default)(state.todos), [{
-	                    id: state.todos.length,
-	                    text: action.text,
-	                    done: false
-	                }])
-	            });
+	            return [].concat((0, _toConsumableArray3.default)(state), [{
+	                id: state.length,
+	                text: action.text,
+	                done: false
+	            }]);
 	        case 'TODO_TOGGLE_DONE':
-	            var newState = (0, _extends3.default)({}, state, {
-	                todos: [].concat((0, _toConsumableArray3.default)(state.todos))
-	            });
+	            var newState = [].concat((0, _toConsumableArray3.default)(state));
 
 	            var _iteratorNormalCompletion = true;
 	            var _didIteratorError = false;
 	            var _iteratorError = undefined;
 
 	            try {
-	                for (var _iterator = (0, _getIterator3.default)(newState.todos), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                for (var _iterator = (0, _getIterator3.default)(newState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	                    var todo = _step.value;
 
 	                    if (todo.id === action.id) {
@@ -11341,159 +11338,105 @@
 
 /***/ }),
 /* 400 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _assign = __webpack_require__(401);
-
-	var _assign2 = _interopRequireDefault(_assign);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _assign2.default || function (target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i];
-
-	    for (var key in source) {
-	      if (Object.prototype.hasOwnProperty.call(source, key)) {
-	        target[key] = source[key];
-	      }
-	    }
-	  }
-
-	  return target;
-	};
-
-/***/ }),
-/* 401 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(402), __esModule: true };
-
-/***/ }),
-/* 402 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(403);
-	module.exports = __webpack_require__(354).Object.assign;
-
-
-/***/ }),
-/* 403 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(352);
-
-	$export($export.S + $export.F, 'Object', { assign: __webpack_require__(404) });
-
-
-/***/ }),
-/* 404 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys = __webpack_require__(372);
-	var gOPS = __webpack_require__(405);
-	var pIE = __webpack_require__(406);
-	var toObject = __webpack_require__(386);
-	var IObject = __webpack_require__(347);
-	var $assign = Object.assign;
-
-	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(363)(function () {
-	  var A = {};
-	  var B = {};
-	  // eslint-disable-next-line no-undef
-	  var S = Symbol();
-	  var K = 'abcdefghijklmnopqrst';
-	  A[S] = 7;
-	  K.split('').forEach(function (k) { B[k] = k; });
-	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-	}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
-	  var T = toObject(target);
-	  var aLen = arguments.length;
-	  var index = 1;
-	  var getSymbols = gOPS.f;
-	  var isEnum = pIE.f;
-	  while (aLen > index) {
-	    var S = IObject(arguments[index++]);
-	    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
-	    var length = keys.length;
-	    var j = 0;
-	    var key;
-	    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
-	  } return T;
-	} : $assign;
-
-
-/***/ }),
-/* 405 */
 /***/ (function(module, exports) {
-
-	exports.f = Object.getOwnPropertySymbols;
-
-
-/***/ }),
-/* 406 */
-/***/ (function(module, exports) {
-
-	exports.f = {}.propertyIsEnumerable;
-
-
-/***/ }),
-/* 407 */
-/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	var visibilityFilterReducer = function visibilityFilterReducer() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case 'CHANGE_VISIBILITY':
+	            return action.visibility;
+	        default:
+	            return state;
+	    }
+	};
+
+	exports.default = visibilityFilterReducer;
+
+/***/ }),
+/* 401 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.render = render;
 
-	var _feature = __webpack_require__(408);
+	var _feature = __webpack_require__(402);
+
+	var getTodosFiltrando = function getTodosFiltrando(state) {
+	    if (state.visibility == "done") {
+	        return state.todos.filter(function (todo) {
+	            return todo.done;
+	        });
+	    } else if (state.visibility == "open") {
+	        return state.todos.filter(function (todo) {
+	            return !todo.done;
+	        });
+	    } else {
+	        return state.todos;
+	    }
+	};
 
 	function render(el, state) {
-	    var todoItems = state.todos.map(renderTodoItem).join('');
-	    el.innerHTML = renderApp(renderInput(), renderTodos(todoItems));
+	    var todoItems = getTodosFiltrando(state).map(renderTodoItem).join('');
+	    el.innerHTML = renderApp(renderInput(), renderTodos(todoItems), renderFilters(state.visibility));
 	}
 
-	function renderApp(input, todoList) {
+	function renderApp(input, todoList, filters) {
+	    var appReturn = "";
+
 	    if ((0, _feature.isEnabled)('renderBottom')) {
-	        return renderAddTodoAtBottom(input, todoList);
+	        appReturn = renderAddTodoAtBottom(input, todoList);
 	    } else {
-	        return renderAddTodoAtTop(input, todoList);
+	        appReturn = renderAddTodoAtTop(input, todoList);
 	    }
+
+	    if ((0, _feature.isEnabled)('filter')) {
+	        appReturn += filters;
+	    }
+	    return appReturn;
+	}
+
+	function renderFilters(visibility) {
+	    var filterAll = "<input type=\"radio\" id=\"show_all\" name=\"filter\" " + (visibility == "all" ? "checked" : "") + "> \n    <label for=\"show_all\"> All </label>";
+	    var filterOpen = "<input type=\"radio\" id=\"show_open\" name=\"filter\" " + (visibility == "open" ? "checked" : "") + "> \n    <label for=\"show_open\"> Open </label>";
+	    var filterDone = "<input type=\"radio\" id=\"show_done\" name=\"filter\" " + (visibility == "done" ? "checked" : "") + ">\n    <label for=\"show_done\"> Done </label>";
+
+	    return "<div>\n        " + filterAll + "\n        " + filterOpen + "\n        " + filterDone + "\n    </div>";
 	}
 
 	function renderAddTodoAtTop(input, todoList) {
-	    return '<div id="app">\n        ' + input + '\n        ' + todoList + '\n    </div>';
+	    return "<div id=\"app\">\n        " + input + "\n        " + todoList + "\n    </div>";
 	}
 
 	function renderAddTodoAtBottom(input, todoList) {
-	    return '<div id="app">\n        ' + todoList + '\n        ' + input + '\n    </div>';
+	    return "<div id=\"app\">\n        " + todoList + "\n        " + input + "\n    </div>";
 	}
 
 	function renderInput() {
-	    return '<div class="todo__input"><input type="text" id="todoInput" required><button id="addTodo">Add</button></div>';
+	    return "<div class=\"todo__input\"><input type=\"text\" id=\"todoInput\" required><button id=\"addTodo\">Add</button></div>";
 	}
 
 	function renderTodos(todoItems) {
-	    return '<ul class="todo">' + todoItems + '</ul>';
+	    return "<ul class=\"todo\">" + todoItems + "</ul>";
 	}
 
 	function renderTodoItem(todo) {
-	    var todoClass = 'todo__item todo__item--' + (todo.done ? 'done' : 'open');
-	    return '<li class="' + todoClass + '">\n        <input class="js_toggle_todo" type="checkbox" data-id="' + todo.id + '"' + (todo.done ? ' checked' : '') + '>\n        ' + todo.text + '\n    </li>';
+	    var todoClass = "todo__item todo__item--" + (todo.done ? 'done' : 'open');
+	    return "<li class=\"" + todoClass + "\">\n        <input class=\"js_toggle_todo\" type=\"checkbox\" data-id=\"" + todo.id + "\"" + (todo.done ? ' checked' : '') + ">\n        " + todo.text + "\n    </li>";
 		}
 
 /***/ }),
-/* 408 */
+/* 402 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -11507,7 +11450,7 @@
 	}
 
 /***/ }),
-/* 409 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11516,7 +11459,7 @@
 	    value: true
 	});
 
-	var _parseInt = __webpack_require__(410);
+	var _parseInt = __webpack_require__(404);
 
 	var _parseInt2 = _interopRequireDefault(_parseInt);
 
@@ -11526,9 +11469,9 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _events = __webpack_require__(416);
+	var _events = __webpack_require__(410);
 
-	var _actions = __webpack_require__(417);
+	var _actions = __webpack_require__(411);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11553,39 +11496,51 @@
 	        var id = (0, _parseInt2.default)(event.target.getAttribute('data-id'), 10);
 	        _index2.default.dispatch((0, _actions.toggleTodoState)(id));
 	    });
+
+	    (0, _events.listen)('click', '#show_open', function (event) {
+	        _index2.default.dispatch((0, _actions.changeVisibility)('open'));
+	    });
+
+	    (0, _events.listen)('click', '#show_all', function (event) {
+	        _index2.default.dispatch((0, _actions.changeVisibility)('all'));
+	    });
+
+	    (0, _events.listen)('click', '#show_done', function (event) {
+	        _index2.default.dispatch((0, _actions.changeVisibility)('done'));
+	    });
 	}
 
 /***/ }),
-/* 410 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(411), __esModule: true };
+	module.exports = { "default": __webpack_require__(405), __esModule: true };
 
 /***/ }),
-/* 411 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(412);
+	__webpack_require__(406);
 	module.exports = __webpack_require__(354).Number.parseInt;
 
 
 /***/ }),
-/* 412 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var $export = __webpack_require__(352);
-	var $parseInt = __webpack_require__(413);
+	var $parseInt = __webpack_require__(407);
 	// 20.1.2.13 Number.parseInt(string, radix)
 	$export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', { parseInt: $parseInt });
 
 
 /***/ }),
-/* 413 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var $parseInt = __webpack_require__(353).parseInt;
-	var $trim = __webpack_require__(414).trim;
-	var ws = __webpack_require__(415);
+	var $trim = __webpack_require__(408).trim;
+	var ws = __webpack_require__(409);
 	var hex = /^[-+]?0[xX]/;
 
 	module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt(str, radix) {
@@ -11595,13 +11550,13 @@
 
 
 /***/ }),
-/* 414 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var $export = __webpack_require__(352);
 	var defined = __webpack_require__(349);
 	var fails = __webpack_require__(363);
-	var spaces = __webpack_require__(415);
+	var spaces = __webpack_require__(409);
 	var space = '[' + spaces + ']';
 	var non = '\u200b\u0085';
 	var ltrim = RegExp('^' + space + space + '*');
@@ -11631,7 +11586,7 @@
 
 
 /***/ }),
-/* 415 */
+/* 409 */
 /***/ (function(module, exports) {
 
 	module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
@@ -11639,7 +11594,7 @@
 
 
 /***/ }),
-/* 416 */
+/* 410 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -11657,7 +11612,7 @@
 	}
 
 /***/ }),
-/* 417 */
+/* 411 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -11667,6 +11622,7 @@
 	});
 	exports.toggleTodoState = toggleTodoState;
 	exports.addTodo = addTodo;
+	exports.changeVisibility = changeVisibility;
 	function toggleTodoState(id) {
 	    return {
 	        type: 'TODO_TOGGLE_DONE',
@@ -11678,6 +11634,13 @@
 	    return {
 	        type: 'ADD_TODO',
 	        text: text
+	    };
+	}
+
+	function changeVisibility(visibility) {
+	    return {
+	        type: 'CHANGE_VISIBILITY',
+	        visibility: visibility
 	    };
 		}
 
