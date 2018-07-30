@@ -1,11 +1,15 @@
 import '../css/main.css';
 
-import todos from './store/index';
+import Store from './store/index';
 import {render} from './view';
 import {registerEventHandlers} from './events';
+import  {saveTodos}  from './localStorage';
 
-todos.subscribe(() => render(document.body, todos.getState()));
+Store.subscribe(() => render(document.body, Store.getState()));
+Store.subscribe(()=> {
+    saveTodos(Store.getState());
+})
 
-render(document.body, todos.getState());
+render(document.body, Store.getState());
 
 registerEventHandlers();

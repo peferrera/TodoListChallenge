@@ -1,11 +1,15 @@
 import { createStore, combineReducers } from 'redux';
 import todos from '../reducers/todoChangeReducer';
 import visibility from '../reducers/visibilityReducer';
+import appReducers from '../reducers/index';
+import { loadTodos } from '../localStorage';
 
-const Store = createStore(combineReducers({
-    todos,
-    visibility
-})
+const savedState = loadTodos();
+savedState.visibility = "all";
+const Store = createStore(
+    appReducers,
+    savedState
 );
-console.log(Store.getState());
+// console.log(Store.getState());
+
 export default Store;

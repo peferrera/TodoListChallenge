@@ -1,9 +1,11 @@
-import  todo  from './todoChangeReducer';
+import todos from '../reducers/todoChangeReducer';
+import visibility from '../reducers/visibilityReducer';
 import { combineReducers } from 'redux';
 
-const Reducers = combineReducers({
-    todo
+const appReducers = combineReducers({
+    todos,
+    visibility
 });
 
-export default Reducers;
+export default appReducers;
 
