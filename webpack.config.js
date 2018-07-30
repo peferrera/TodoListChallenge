@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const MinifyPlugin = require('uglifyjs-webpack-plugin');
@@ -30,6 +31,10 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin("main.css"),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')}
+        }),
         new MinifyPlugin(),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
