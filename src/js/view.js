@@ -82,6 +82,6 @@ function renderTodoItem(todo) {
     const todoClass = `todo__item todo__item--${todo.done ? 'done' : 'open'}`;
     return `<li class="${todoClass}">
         <input class="js_toggle_todo" type="checkbox" data-id="${todo.id}"${todo.done ? ' checked' : ''}>
-        ${todo.text}
+        <label for="${todo.id}" class="js_toggle_todo"data-id="${todo.id}">${todo.text}</label> 
     </li>`;
 }
